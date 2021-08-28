@@ -26,7 +26,7 @@ function getNLUInstance() {
     const { IamAuthenticator } = require('ibm-watson/auth');
 
     const naturalLanguageUnderstanding = new NaturalLanguageUnderstandingV1({
-        version: '2020-08-01',
+        version: '2021-08-01',
         authenticator: new IamAuthenticator({
             apikey: api_key,
         }),
@@ -89,9 +89,9 @@ app.get("/url/sentiment", (req,res) => {
       naturalLanguageUnderstanding.analyze(analyzeParams)
       .then(analysisResults => {
          //Print the JSON returned by NLU instance as a formatted string
-         console.log(JSON.stringify(analysisResults.result.keywords[0].label,null,2));
+         console.log(JSON.stringify(analysisResults.result.keywords[0].sentiment.label,null,2));
          //Please refer to the image to see the order of retrieval
-         return res.send(analysisResults.result.keywords[0].label,null,2);
+         return res.send(analysisResults.result.keywords[0].sentiment.label,null,2);
       })
       .catch(err => {
       return res.send("Could not do desired operation "+err);
