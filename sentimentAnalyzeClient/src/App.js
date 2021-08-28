@@ -21,10 +21,14 @@ class App extends React.Component {
   If the requested input mode is "text" it returns a textbox with 4 rows.
   If the requested input mode is "url" it returns a textbox with 1 row.
   */
- 
+ componentDidMount(){
+    document.title = "Sentiment Analyzer";
+  }
+  
   renderOutput = (input_mode)=>{
     let rows = 1
     let mode = "url"
+    document.title = "Sentiment Analyzer"
     //If the input mode is text make it 4 lines
     if(input_mode === "text"){
       mode = "text"
@@ -47,13 +51,12 @@ class App extends React.Component {
         response.text().then((data)=>{
         this.setState({sentimentOutput:data});
         let output = data;
-        let color = "white"
+        //let color = "white"
         switch(data) {
-          case "positive": color = "black";break;
-          case "negative": color = "black";break;
-          default: color = "black";
+          case "positive": output = <div style={{color:"green",fontSize:20}}>{data}</div>;break;
+          case "negative": output = <div style={{color:"red",fontSize:20}}>{data}</div>;break;
+          default: output = <div style={{color:"yellow",fontSize:20}}>{data}</div>;
         }
-        output = <div style={{color:{color},fontSize:20}}>{data}</div>
         this.setState({sentimentOutput:output});
       })});
   }
@@ -73,7 +76,7 @@ class App extends React.Component {
   
 
   render() {
-    return (  
+    return (
       <div className="App">
       <button className="btn btn-info" onClick={()=>{this.renderOutput('text')}}>Text</button>
         <button className="btn btn-dark"  onClick={()=>{this.renderOutput('url')}}>URL</button>
